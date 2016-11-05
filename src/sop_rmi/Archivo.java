@@ -7,6 +7,9 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Archivo {
 
@@ -92,6 +95,23 @@ public class Archivo {
         }
         return ruta;
     }
+    
+    public void escribir_admin(String contenido) throws IOException{
+        String ruta = obtenerRuta()+"\\src\\servidor\\infoArchivos\\admin.txt";
+        File archivo = new File(ruta);
+        BufferedWriter bw;
+
+        if (archivo.exists()) {
+            bw = new BufferedWriter(new FileWriter(archivo));
+            bw.write(contenido);
+        } else {
+            archivo.createNewFile();
+            bw = new BufferedWriter(new FileWriter(archivo));
+            bw.write(contenido);
+        }
+        bw.close();
+    
+    }
 
     public void escribir(String contenido, String nick) throws IOException {
 
@@ -112,23 +132,41 @@ public class Archivo {
     }
     
     
-    public void listar (){
+    public ArrayList<Usuario> listar (){
+       System.out.println("listando Usuarios");
+        ArrayList<Usuario> datosUsers= new ArrayList<>();
+        Usuario objUser =null;
+        String[] contenidoArchivo;
         String ruta = obtenerRuta()+"\\src\\servidor\\infoArchivos\\archivosUsers";
         File directorio = new File(ruta);
-        
         if (directorio.exists()){ 
              // String[] arrArchivos = directorio.list();
              File[] ficheros = directorio.listFiles();
         
                 for (int x=0;x<ficheros.length;x++){
-                    
-                  System.out.println(ficheros[x].getName());
-                  
+                 try {
+                     //System.out.println(ficheros[x].getName());
+                     String rutaArchivo = obtenerRuta()+"\\src\\servidor\\infoArchivos\\archivosUsers\\jugador_" + ficheros[x].getName() + ".txt";
+                     File archivo = new File(rutaArchivo);
+                     abrirArchivo(rutaArchivo, false);
+                     contenidoArchivo = leerContenido(rutaArchivo);
+                     
+                              for (int i = 0; i <contenidoArchivo.length; i++) {
+                                 String[] dato= rutaArchivo.split(";");
+                                 objUser= new Usuario(dato[0],dato[1], dato[2], dato[3]);
+                               }
+                 } 
+                 
+                 catch (IOException ex) {
+                     Logger.getLogger(Archivo.class.getName()).log(Level.SEVERE, null, ex);
+                 }
+                 
+                datosUsers.add(objUser);
                 }
         }
         else { 
                System.out.println("No se pudo Listar");
             }
-
+     return datosUsers;
     }
 }

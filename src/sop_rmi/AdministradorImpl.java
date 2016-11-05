@@ -30,7 +30,7 @@ public class AdministradorImpl extends UnicastRemoteObject implements Administra
 
     @Override
     public boolean registrarUsuario(Usuario usuario) {
-
+        System.out.println("Registro de Usuario");
         Archivo objArchivo = new Archivo();
         String cadena = usuario.getNombre() + ";" + usuario.getApellidos() + ";" + usuario.getNickName() + ";" + usuario.getClaveIngreso();
        
@@ -49,6 +49,22 @@ public class AdministradorImpl extends UnicastRemoteObject implements Administra
         jugadores.add(usuario);
         return true;
     }
+   /* 
+     public boolean registrarAdministador(String login, String contrasenia) {
+        System.out.println("Registro de Usuario");
+        Archivo objArchivo = new Archivo();
+        String cadena = login + ";"  + contrasenia;
+       
+        try {
+            objArchivo.escribir_admin(cadena);
+             return true;
+        } catch (IOException ex) {
+            Logger.getLogger(AdministradorImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       
+       
+    }
+    */
 
     @Override
     public boolean ingresarAdministrador(String nickName, String claveIngreso) {
@@ -71,30 +87,49 @@ public class AdministradorImpl extends UnicastRemoteObject implements Administra
 
     @Override
     public boolean modificarAdministador(String login, String contrasenia) {
-
-        return false;
+      /*
+        System.out.println("Modificar Administrador");
+        boolean modificar= false;
+        System.out.println("Modificando Datos de un Administrador");
+        File archivo=new File(obtenerRuta()+"\\src\\servidor\\infoArchivos\\admin.txt");
+        System.out.println("Borra datos del archivo para modificar el administrador");
+          
+            if(ObjArchivo.borrarFichero(archivo)){
+                  if(registrarUsuario(usuario)){
+                     
+                      modificar= true;
+                     
+                    }
+                     else{
+                      modificar=false;
+                     }
+             }
+            else{
+                       modificar=false;
+               }*/
+    return true;
 
     }
 
     @Override
     public boolean modificarUsuario(Usuario usuario) {
+        System.out.println("Modificando Usuario");
         boolean modificar= false;
         System.out.println("Modificando Datos de un Usuario");
         File archivo=new File(obtenerRuta()+"\\src\\servidor\\infoArchivos\\archivosUsers\\jugador_" +usuario.getNickName() + ".txt");
         System.out.println("Borra datos de un archivo");
-        
-        if(ObjArchivo.borrarFichero(archivo)){
-              
-             if(registrarUsuario(usuario)){
-                modificar= true;
-                }
-                else{
-                 modificar=false;
-                }
-        }
-       else{
-                  modificar=false;
-          }
+          
+            if(ObjArchivo.borrarFichero(archivo)){
+                  if(registrarUsuario(usuario)){
+                     modificar= true;
+                     }
+                     else{
+                      modificar=false;
+                     }
+             }
+            else{
+                       modificar=false;
+               }
     return modificar;
     }
 
@@ -111,7 +146,12 @@ public class AdministradorImpl extends UnicastRemoteObject implements Administra
 
     @Override
     public ArrayList<Usuario> listarJugadores() {
-        
+        return ObjArchivo.listar ();
+    }
+
+    @Override
+    public boolean registrarAdministador(String login, String contrasenia) throws RemoteException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
