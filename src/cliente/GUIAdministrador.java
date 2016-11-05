@@ -127,7 +127,7 @@ public class GUIAdministrador extends javax.swing.JDialog {
 
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
         // TODO add your handling code here:        
-        Singleton.adminRemoto(txtIp.getText(),Integer.parseInt(txtPuerto.getText()),"Administrador");
+        Singleton.adminRemoto("localhost",2020,"Administrador");
         try {
             if(Singleton.adminRemoto().ingresarAdministrador(txtLogin.getText(), txtContrasena.getText())){
                 parent.setVisible(false);

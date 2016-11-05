@@ -18,6 +18,6 @@ public interface AdministradorInt extends Remote{
     boolean ingresarAdministrador(String login,String claveIngreso) throws RemoteException;
     boolean modificarAdministador(String login) throws RemoteException;
     boolean modificarUsuario(String nickName) throws RemoteException;
-    boolean borrarUsuario(String nickName) throws RemoteException;
+    boolean borrarUsuario(Usuario usuario) throws RemoteException;
     ArrayList<Usuario> listarJugadores() throws RemoteException;
 }

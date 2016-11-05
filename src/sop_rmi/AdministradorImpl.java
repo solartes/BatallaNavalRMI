@@ -5,12 +5,14 @@
  */
 package sop_rmi;
 
+import java.io.File;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import static sop_rmi.Archivo.obtenerRuta;
 
 /**
  *
@@ -19,6 +21,7 @@ import java.util.logging.Logger;
 public class AdministradorImpl extends UnicastRemoteObject implements AdministradorInt {
 
     ArrayList<Usuario> jugadores;
+    Archivo ObjArchivo = new Archivo();
 
     public AdministradorImpl() throws RemoteException {
 
@@ -53,8 +56,7 @@ public class AdministradorImpl extends UnicastRemoteObject implements Administra
         boolean retorno=false;
         //String archivo = "C:\\Users\\Lenovo\\Documents\\NetBeansProjects\\batallaNavalRMI\\batallaNavalRMI\\src\\servidor\\infoArchivos\\admin.txt";
         String archivo = Archivo.obtenerRuta()+"\\src\\servidor\\infoArchivos\\admin.txt";
-        try {
-            Archivo ObjArchivo = new Archivo();
+        try {            
             ObjArchivo.abrirArchivo(archivo, false);
             contenidoArchivo = ObjArchivo.leerContenido(archivo);
             if (nickName.equals(contenidoArchivo[0]) && claveIngreso.equals(contenidoArchivo[1])) {
@@ -92,22 +94,11 @@ public class AdministradorImpl extends UnicastRemoteObject implements Administra
 
     }
 
-    @Override
-    public boolean borrarUsuario(String nickName) {
-
-        boolean dato = true;
-        for (int i = 0; i < jugadores.size(); i++) {
-
-            if (jugadores.get(i).getNickName() == nickName) {
-                jugadores.remove(i);
-                dato = true;
-            } else {
-                dato = false;
-            }
-        }
-
-        return dato;
-    }
+    //@Override
+    //public boolean borrarUsuario(Usuario usuario) {
+        //File archivo=new File(obtenerRuta()+"\\src\\servidor\\infoArchivos\\archivosUsers\\jugador_" +usuario.getNickName() + ".txt");
+        //ObjArchivo.borrarArchivo(archivo);
+    //}
 
     @Override
     public ArrayList<Usuario> listarJugadores() {
