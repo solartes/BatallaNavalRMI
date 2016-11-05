@@ -14,17 +14,21 @@ import java.util.logging.Logger;
  *
  * @author acer_acer
  */
-public class GUIAdministrador extends javax.swing.JDialog {
+public class GUILoginAdministrador extends javax.swing.JDialog {
 
     /**
      * Creates new form NewJDialog
-     */
-    Frame parent;
-    public GUIAdministrador(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
+     */    
+    GUIPrincipal padre;
+    public GUILoginAdministrador(GUIPrincipal padre) {
+        this.padre=padre;
         initComponents();
-        this.parent=parent;
     }
+    
+    public GUILoginAdministrador() {
+        initComponents();
+    }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -130,12 +134,13 @@ public class GUIAdministrador extends javax.swing.JDialog {
         Singleton.adminRemoto("localhost",2020,"Administrador");
         try {
             if(Singleton.adminRemoto().ingresarAdministrador(txtLogin.getText(), txtContrasena.getText())){
-                parent.setVisible(false);
-                GUIRegistrarUsuario registro=new GUIRegistrarUsuario(parent, rootPaneCheckingEnabled);
+                GUIAccionesUsuario registro=new GUIAccionesUsuario();
+                padre.setVisible(false);
+                this.setVisible(false);
                 registro.setVisible(true);
             }
         } catch (RemoteException ex) {
-            Logger.getLogger(GUIAdministrador.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GUILoginAdministrador.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnIngresarActionPerformed
 
@@ -158,14 +163,22 @@ public class GUIAdministrador extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GUIAdministrador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GUILoginAdministrador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GUIAdministrador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GUILoginAdministrador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GUIAdministrador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GUILoginAdministrador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GUIAdministrador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GUILoginAdministrador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -178,14 +191,7 @@ public class GUIAdministrador extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                GUIAdministrador dialog = new GUIAdministrador(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
+                new GUILoginAdministrador().setVisible(true);
             }
         });
     }

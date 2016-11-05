@@ -70,7 +70,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
 
     private void btnIngresoAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresoAdminActionPerformed
         // TODO add your handling code here:
-        GUIAdministrador gui=new GUIAdministrador(this, rootPaneCheckingEnabled);
+        GUILoginAdministrador gui=new GUILoginAdministrador(this);
         gui.setVisible(rootPaneCheckingEnabled);
     }//GEN-LAST:event_btnIngresoAdminActionPerformed
 

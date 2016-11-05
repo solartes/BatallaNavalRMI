@@ -7,23 +7,24 @@ package cliente;
 
 import sop_rmi.Usuario;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import sop_rmi.AdministradorInt;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author acer_acer
  */
-public class GUIRegistrarUsuario extends javax.swing.JDialog {
+public class GUIAccionesUsuario extends javax.swing.JFrame {
 
     /**
      * Creates new form GUIRegistrarUsuario
      */
-    public GUIRegistrarUsuario(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
+    public GUIAccionesUsuario() {
         initComponents();
-        Singleton.adminRemoto("localhost",2020,"Administrador");
+        Singleton.adminRemoto("localhost", 2020, "Administrador");
+        listarUsuario();
     }
 
     /**
@@ -45,10 +46,10 @@ public class GUIRegistrarUsuario extends javax.swing.JDialog {
         txtContrasena = new javax.swing.JPasswordField();
         btnRegistrar = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        btnBorrar = new javax.swing.JButton();
+        btnModificar = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblUsuarios = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -69,22 +70,33 @@ public class GUIRegistrarUsuario extends javax.swing.JDialog {
 
         jButton2.setText("Salir");
 
-        jButton4.setText("Borrar");
+        btnBorrar.setText("Borrar");
+        btnBorrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBorrarActionPerformed(evt);
+            }
+        });
 
-        jButton5.setText("Modificar");
+        btnModificar.setText("Modificar");
+        btnModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarActionPerformed(evt);
+            }
+        });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblUsuarios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {},
+                {},
+                {},
+                {}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        tblUsuarios.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jScrollPane2.setViewportView(tblUsuarios);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -105,25 +117,29 @@ public class GUIRegistrarUsuario extends javax.swing.JDialog {
                         .addComponent(txtNombre)
                         .addComponent(txtContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(btnRegistrar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 100, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton2)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 437, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addContainerGap())
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                            .addComponent(jButton4)
-                            .addGap(68, 68, 68)
-                            .addComponent(jButton5)
-                            .addGap(110, 110, 110)))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 100, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jButton2)
+                                .addGap(394, 394, 394))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 403, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap())))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(215, 215, 215)
+                        .addComponent(btnModificar)
+                        .addGap(88, 88, 88)
+                        .addComponent(btnBorrar)
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(47, 47, 47)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(47, 47, 47)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
                             .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -140,12 +156,13 @@ public class GUIRegistrarUsuario extends javax.swing.JDialog {
                             .addComponent(jLabel4)
                             .addComponent(txtContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(23, 23, 23)
+                        .addGap(32, 32, 32)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(30, 30, 30)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton5)
-                            .addComponent(jButton4)
-                            .addComponent(btnRegistrar))))
+                            .addComponent(btnModificar)
+                            .addComponent(btnRegistrar)
+                            .addComponent(btnBorrar))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
                 .addComponent(jButton2)
                 .addGap(38, 38, 38))
@@ -154,16 +171,66 @@ public class GUIRegistrarUsuario extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void listarUsuario() {
+        try {
+            DefaultTableModel tableModel = new DefaultTableModel();
+            String[] columnNames = {"Nombres", "Apellidos", "NickName", "Contraseña"};
+            tableModel.setColumnIdentifiers(columnNames);
+            Object[] fila = new Object[tableModel.getColumnCount()];
+            ArrayList<Usuario> usuarios = Singleton.adminRemoto().listarJugadores();
+            for (Usuario usuario : usuarios) {
+                fila[0] = usuario.getNombre();
+                fila[1] = usuario.getApellidos();
+                fila[2] = usuario.getNickName();
+                fila[3] = usuario.getClaveIngreso();
+                tableModel.addRow(fila);
+            }
+            tblUsuarios.setModel(tableModel);
+        } catch (RemoteException ex) {
+            Logger.getLogger(GUIAccionesUsuario.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
         // TODO add your handling code here:
         //lo recibo por ahora, luego por parametro desde la interfaz        
-        Usuario usuario=new Usuario(txtNombre.getText(), txtApellidos.getText(), txtNick.getText(), txtContrasena.getText());        
+        Usuario usuario = new Usuario(txtNombre.getText(), txtApellidos.getText(), txtNick.getText(), txtContrasena.getText());
         try {
             Singleton.adminRemoto().registrarUsuario(usuario);
+            listarUsuario();
         } catch (RemoteException ex) {
-            Logger.getLogger(GUIRegistrarUsuario.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GUIAccionesUsuario.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnRegistrarActionPerformed
+
+    private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
+        // TODO add your handling code here:
+        int fila = tblUsuarios.getSelectedRow();
+        if (fila != -1) {
+            try {
+                System.out.println(""+tblUsuarios.getValueAt(fila, 0));
+                System.out.println(""+tblUsuarios.getValueAt(fila, 1));
+                System.out.println(""+tblUsuarios.getValueAt(fila, 2));
+                System.out.println(""+tblUsuarios.getValueAt(fila, 3));
+                Singleton.adminRemoto().borrarUsuario(new Usuario("Julian", "Solarte","juli", "1234"));
+                listarUsuario();
+            } catch (RemoteException ex) {
+                Logger.getLogger(GUIAccionesUsuario.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            //mostrar que debe solucionar una
+        }
+    }//GEN-LAST:event_btnBorrarActionPerformed
+
+    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+        // TODO add your handling code here:
+        int fila = tblUsuarios.getSelectedRow();
+        if (fila != -1) {
+            Usuario modificar = new Usuario((String) tblUsuarios.getValueAt(fila, 0), (String) tblUsuarios.getValueAt(fila, 1), (String) tblUsuarios.getValueAt(fila, 2), (String) tblUsuarios.getValueAt(fila, 3));
+            GUIModificarUsuario guimodificar = new GUIModificarUsuario(this, rootPaneCheckingEnabled, modificar);
+        } else {
+            //mostrar que debe solucionar una
+        }
+    }//GEN-LAST:event_btnModificarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -182,42 +249,36 @@ public class GUIRegistrarUsuario extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GUIRegistrarUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GUIAccionesUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GUIRegistrarUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GUIAccionesUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GUIRegistrarUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GUIAccionesUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GUIRegistrarUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GUIAccionesUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                GUIRegistrarUsuario dialog = new GUIRegistrarUsuario(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
+                new GUIAccionesUsuario().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBorrar;
+    private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnRegistrar;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable tblUsuarios;
     private javax.swing.JTextField txtApellidos;
     private javax.swing.JPasswordField txtContrasena;
     private javax.swing.JTextField txtNick;
