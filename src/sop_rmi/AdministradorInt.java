@@ -16,8 +16,8 @@ import java.util.ArrayList;
 public interface AdministradorInt extends Remote{
     boolean registrarUsuario(Usuario usuario) throws RemoteException;
     boolean ingresarAdministrador(String login,String claveIngreso) throws RemoteException;
-    boolean modificarAdministador(String login) throws RemoteException;
-    boolean modificarUsuario(String nickName) throws RemoteException;
+    boolean modificarAdministador(String login, String contrasenia) throws RemoteException;
+    boolean modificarUsuario(Usuario usuario) throws RemoteException;
     boolean borrarUsuario(Usuario usuario) throws RemoteException;
     ArrayList<Usuario> listarJugadores() throws RemoteException;
 }

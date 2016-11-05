@@ -33,6 +33,7 @@ public class AdministradorImpl extends UnicastRemoteObject implements Administra
 
         Archivo objArchivo = new Archivo();
         String cadena = usuario.getNombre() + ";" + usuario.getApellidos() + ";" + usuario.getNickName() + ";" + usuario.getClaveIngreso();
+       
         for (int i = 0; i < jugadores.size(); i++) {
             if (jugadores.get(i).getNickName().equals(usuario.getNickName())) {
                 return false;
@@ -69,40 +70,48 @@ public class AdministradorImpl extends UnicastRemoteObject implements Administra
     }
 
     @Override
-    public boolean modificarAdministador(String login) {
+    public boolean modificarAdministador(String login, String contrasenia) {
 
         return false;
 
     }
 
     @Override
-    public boolean modificarUsuario(String nickName) {
-
-        boolean dato = true;
-        for (int i = 0; i < jugadores.size(); i++) {
-
-            if (jugadores.get(i).getNickName() == nickName) {
-
-                //jugadores.set(i, "paola");
-                dato = true;
-            } else {
-                dato = false;
-            }
+    public boolean modificarUsuario(Usuario usuario) {
+        boolean modificar= false;
+        System.out.println("Modificando Datos de un Usuario");
+        File archivo=new File(obtenerRuta()+"\\src\\servidor\\infoArchivos\\archivosUsers\\jugador_" +usuario.getNickName() + ".txt");
+        System.out.println("Borra datos de un archivo");
+        
+        if(ObjArchivo.borrarFichero(archivo)){
+              
+             if(registrarUsuario(usuario)){
+                modificar= true;
+                }
+                else{
+                 modificar=false;
+                }
         }
-
-        return dato;
-
+       else{
+                  modificar=false;
+          }
+    return modificar;
     }
 
-    //@Override
-    //public boolean borrarUsuario(Usuario usuario) {
-        //File archivo=new File(obtenerRuta()+"\\src\\servidor\\infoArchivos\\archivosUsers\\jugador_" +usuario.getNickName() + ".txt");
-        //ObjArchivo.borrarArchivo(archivo);
-    //}
+    @Override
+    public boolean borrarUsuario(Usuario usuario) {
+        File archivo=new File(obtenerRuta()+"\\src\\servidor\\infoArchivos\\archivosUsers\\jugador_" +usuario.getNickName() + ".txt");
+        if(ObjArchivo.borrarFichero(archivo)){
+           return true;
+        }
+        else{
+           return false;
+        }
+     }
 
     @Override
     public ArrayList<Usuario> listarJugadores() {
-        return jugadores;
+        
     }
 
 }

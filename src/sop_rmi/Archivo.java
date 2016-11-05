@@ -20,6 +20,20 @@ public class Archivo {
             this.archivoLectura = new BufferedReader(new FileReader(nombre));
         }
     }
+    
+    public boolean borrarFichero(File fichero){
+     boolean borrar=false;
+            if(fichero.exists()){
+                   fichero.delete(); 
+                   borrar=true;
+
+                   }
+           else{
+                 borrar=false;
+               }
+     return borrar;
+      
+   }
 
     public void escribirArchivo(String datos) throws IOException {
         archivoEscritura.write(datos);
@@ -96,5 +110,25 @@ public class Archivo {
         }
         bw.close();
     }
+    
+    
+    public void listar (){
+        String ruta = obtenerRuta()+"\\src\\servidor\\infoArchivos\\archivosUsers";
+        File directorio = new File(ruta);
+        
+        if (directorio.exists()){ 
+             // String[] arrArchivos = directorio.list();
+             File[] ficheros = directorio.listFiles();
+        
+                for (int x=0;x<ficheros.length;x++){
+                    
+                  System.out.println(ficheros[x].getName());
+                  
+                }
+        }
+        else { 
+               System.out.println("No se pudo Listar");
+            }
 
+    }
 }
