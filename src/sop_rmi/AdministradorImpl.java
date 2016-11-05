@@ -49,22 +49,49 @@ public class AdministradorImpl extends UnicastRemoteObject implements Administra
         jugadores.add(usuario);
         return true;
     }
-   /* 
+  
+    @Override
      public boolean registrarAdministador(String login, String contrasenia) {
         System.out.println("Registro de Usuario");
         Archivo objArchivo = new Archivo();
-        String cadena = login + ";"  + contrasenia;
-       
-        try {
-            objArchivo.escribir_admin(cadena);
-             return true;
-        } catch (IOException ex) {
-            Logger.getLogger(AdministradorImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
-       
-       
+        String cadena = login  + ";" + contrasenia;
+           try {
+                objArchivo.escribir_admin(cadena);
+                 return true;
+                } 
+            catch (IOException ex) {
+                Logger.getLogger(AdministradorImpl.class.getName()).log(Level.SEVERE, null, ex);
+                return   false;    
+               }
     }
-    */
+     
+     
+     /*
+       public boolean ingresarUsuario(String nickName, String claveIngreso) {
+        System.out.println("Iniciando sesion Usuarios");
+        String[] contenidoArchivo;
+        boolean retorno=false;
+        //String archivo = "C:\\Users\\Lenovo\\Documents\\NetBeansProjects\\batallaNavalRMI\\batallaNavalRMI\\src\\servidor\\infoArchivos\\admin.txt";
+        String archivo = Archivo.obtenerRuta()+"\\src\\servidor\\infoArchivos\\admin.txt";
+        try {            
+            ObjArchivo.abrirArchivo(archivo, false);
+            
+            contenidoArchivo = ObjArchivo.leerContenido(archivo);
+            for (int i = 0; i < contenidoArchivo.length; i++) {
+                String []contenido= contenidoArchivo[0].split(";");
+                    if (nickName.equals(contenido[0]) && claveIngreso.equals(contenido[1])) {
+                        retorno=true;
+                    }
+            }
+            
+         } catch (Exception e) {
+            System.err.println("Ocurrio un error al leer el archivo");
+        }
+        return retorno;
+    }
+    
+     */
+    
 
     @Override
     public boolean ingresarAdministrador(String nickName, String claveIngreso) {
@@ -75,11 +102,16 @@ public class AdministradorImpl extends UnicastRemoteObject implements Administra
         String archivo = Archivo.obtenerRuta()+"\\src\\servidor\\infoArchivos\\admin.txt";
         try {            
             ObjArchivo.abrirArchivo(archivo, false);
+            
             contenidoArchivo = ObjArchivo.leerContenido(archivo);
-            if (nickName.equals(contenidoArchivo[0]) && claveIngreso.equals(contenidoArchivo[1])) {
-                retorno=true;
+            for (int i = 0; i < contenidoArchivo.length; i++) {
+                String []contenido= contenidoArchivo[0].split(";");
+                    if (nickName.equals(contenido[0]) && claveIngreso.equals(contenido[1])) {
+                        retorno=true;
+                    }
             }
-        } catch (Exception e) {
+            
+         } catch (Exception e) {
             System.err.println("Ocurrio un error al leer el archivo");
         }
         return retorno;
@@ -87,7 +119,7 @@ public class AdministradorImpl extends UnicastRemoteObject implements Administra
 
     @Override
     public boolean modificarAdministador(String login, String contrasenia) {
-      /*
+      
         System.out.println("Modificar Administrador");
         boolean modificar= false;
         System.out.println("Modificando Datos de un Administrador");
@@ -95,7 +127,7 @@ public class AdministradorImpl extends UnicastRemoteObject implements Administra
         System.out.println("Borra datos del archivo para modificar el administrador");
           
             if(ObjArchivo.borrarFichero(archivo)){
-                  if(registrarUsuario(usuario)){
+                  if(registrarAdministador(login, contrasenia)){
                      
                       modificar= true;
                      
@@ -106,8 +138,8 @@ public class AdministradorImpl extends UnicastRemoteObject implements Administra
              }
             else{
                        modificar=false;
-               }*/
-    return true;
+               }
+    return modificar;
 
     }
 
@@ -149,9 +181,6 @@ public class AdministradorImpl extends UnicastRemoteObject implements Administra
         return ObjArchivo.listar ();
     }
 
-    @Override
-    public boolean registrarAdministador(String login, String contrasenia) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+   
 
 }

@@ -146,13 +146,13 @@ public class Archivo {
                 for (int x=0;x<ficheros.length;x++){
                  try {
                      //System.out.println(ficheros[x].getName());
-                     String rutaArchivo = obtenerRuta()+"\\src\\servidor\\infoArchivos\\archivosUsers\\jugador_" + ficheros[x].getName() + ".txt";
+                     String rutaArchivo = obtenerRuta()+"\\src\\servidor\\infoArchivos\\archivosUsers\\" + ficheros[x].getName() + ".txt";
                      File archivo = new File(rutaArchivo);
                      abrirArchivo(rutaArchivo, false);
                      contenidoArchivo = leerContenido(rutaArchivo);
                      
                               for (int i = 0; i <contenidoArchivo.length; i++) {
-                                 String[] dato= rutaArchivo.split(";");
+                                 String[] dato= contenidoArchivo[0].split(";");
                                  objUser= new Usuario(dato[0],dato[1], dato[2], dato[3]);
                                }
                  } 

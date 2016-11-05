@@ -21,4 +21,5 @@ public interface AdministradorInt extends Remote{
     boolean modificarUsuario(Usuario usuario) throws RemoteException;
     boolean borrarUsuario(Usuario usuario) throws RemoteException;
     ArrayList<Usuario> listarJugadores() throws RemoteException;
+    
 }
