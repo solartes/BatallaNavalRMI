@@ -227,6 +227,7 @@ public class GUIAccionesUsuario extends javax.swing.JFrame {
         if (fila != -1) {
             Usuario modificar = new Usuario((String) tblUsuarios.getValueAt(fila, 0), (String) tblUsuarios.getValueAt(fila, 1), (String) tblUsuarios.getValueAt(fila, 2), (String) tblUsuarios.getValueAt(fila, 3));
             GUIModificarUsuario guimodificar = new GUIModificarUsuario(this, rootPaneCheckingEnabled, modificar);
+            guimodificar.setVisible(true);
         } else {
             //mostrar que debe solucionar una
         }
