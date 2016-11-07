@@ -5,13 +5,17 @@
  */
 package sop_rmi;
 
+import java.io.Serializable;
+
 /**
  *
  * @author acer_acer
  */
-public class Coordenada {
+public class Coordenada implements Serializable {
+
     int x;
     int y;
+    boolean acerto;
 
     public Coordenada(int x, int y) {
         this.x = x;
@@ -33,5 +37,17 @@ public class Coordenada {
     public void setY(int y) {
         this.y = y;
     }
-    
+
+    @Override
+    public boolean equals(Object object) {
+        boolean igual = false;
+
+        if (object != null && object instanceof Coordenada) {
+            if (this.x == ((Coordenada) object).x && this.y == ((Coordenada) object).y) {
+                igual = true;
+            }
+        }
+
+        return igual;
+    }
 }

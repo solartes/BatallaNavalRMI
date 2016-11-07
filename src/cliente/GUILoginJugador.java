@@ -21,7 +21,7 @@ public class GUILoginJugador extends javax.swing.JFrame {
     /**
      * Creates new form GUIJugador
      */
-    JugadorInt objcllbck;
+    static JugadorInt objcllbck;
     static String nombre;
 
     public GUILoginJugador() {
@@ -161,7 +161,7 @@ public class GUILoginJugador extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnConectarActionPerformed
 
-    public JugadorInt getObjcllbck() {
+    public static JugadorInt getObjcllbck() {
         return objcllbck;
     }
 

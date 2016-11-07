@@ -5,7 +5,12 @@
  */
 package cliente;
 
+import static cliente.GUILoginJugador.getObjcllbck;
 import java.awt.Component;
+import java.rmi.RemoteException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import sop_rmi.Coordenada;
 
 /**
  *
@@ -21,10 +26,18 @@ public class GUIJuego extends javax.swing.JFrame {
 
     public GUIJuego() {
         initComponents();
+        try {
+            getObjcllbck().setinterfazJuego(this);
+        } catch (RemoteException ex) {
+            Logger.getLogger(GUIJuego.class.getName()).log(Level.SEVERE, null, ex);
+        }
         pnlOponente.add(disparosOponentes);
         pnlPropios.add(disparosPropios);
     }
-
+    
+    void repintarInterfaz(Coordenada coordenada, boolean b) {
+        disparosPropios.repint(coordenada,b);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -128,4 +141,6 @@ public class GUIJuego extends javax.swing.JFrame {
     private javax.swing.JPanel pnlOponente;
     private javax.swing.JPanel pnlPropios;
     // End of variables declaration//GEN-END:variables
+
+
 }

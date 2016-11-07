@@ -6,6 +6,7 @@
 package cliente;
 
 import static cliente.GUILoginJugador.getNombre;
+import static cliente.GUILoginJugador.getObjcllbck;
 import java.rmi.RemoteException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,6 +26,11 @@ public class GUIBarcos extends javax.swing.JFrame {
     public GUIBarcos() {
         initComponents();
         pnlTablero.add(barcos);
+        try {
+            getObjcllbck().setInterfazbarcos(this);
+        } catch (RemoteException ex) {
+            Logger.getLogger(GUIBarcos.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
     }
 
@@ -113,6 +119,7 @@ public class GUIBarcos extends javax.swing.JFrame {
                 GUIJuego juego=new GUIJuego();
                 SingletonJugador.jugadorRemoto().posicionBarcos(getNombre());
                 juego.setVisible(true);
+                this.setVisible(false);
             } catch (RemoteException ex) {
                 Logger.getLogger(GUIBarcos.class.getName()).log(Level.SEVERE, null, ex);
             }

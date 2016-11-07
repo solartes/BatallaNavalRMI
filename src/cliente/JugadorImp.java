@@ -25,7 +25,8 @@ import sop_rmi.Usuario;
 public class JugadorImp extends UnicastRemoteObject implements JugadorInt {
 
     GUIPanelSesion GUIC;//implicitamente incluido el atributo nombr
-    GUIBarcos Interfazbarcos;
+    GUIBarcos interfazBarcos;
+    GUIJuego interfazJuego;
     String jugadorOponente;
     ArrayList<Coordenada> barcos;
     ArrayList<Coordenada> disparosRealizados;
@@ -35,9 +36,11 @@ public class JugadorImp extends UnicastRemoteObject implements JugadorInt {
     int dispRestantes;
     boolean turno;
     int salida;
-    
+
     public JugadorImp(GUIPanelSesion GUIC) throws RemoteException {
         this.GUIC = GUIC;
+        barcos = new ArrayList<>();
+        disparosRealizados = new ArrayList<>();
     }
 
     @Override
@@ -58,7 +61,7 @@ public class JugadorImp extends UnicastRemoteObject implements JugadorInt {
 
     @Override
     public void modificarOponente(String oponente) throws RemoteException {
-        jugadorOponente=oponente;
+        jugadorOponente = oponente;
     }
 
     @Override
@@ -67,13 +70,44 @@ public class JugadorImp extends UnicastRemoteObject implements JugadorInt {
     }
 
     @Override
-    public boolean verificarTablero() throws RemoteException {        
+    public boolean verificarTablero() throws RemoteException {
         return true;
     }
 
     @Override
-    public void posicionarBarcos() {
-        barcos=Interfazbarcos.getBarcos().getPuntos();
+    public void posicionarBarcos() throws RemoteException {
+        barcos = interfazBarcos.getBarcos().getPuntos();
+    }
+
+    @Override
+    public String obtenerOponente() throws RemoteException {
+        return jugadorOponente;
+    }
+
+    @Override
+    public ArrayList<Coordenada> obtenerBarcos() throws RemoteException {
+        return barcos;
+    }
+
+    @Override
+    public ArrayList<Coordenada> obtenerDisparosRealizados() throws RemoteException {
+        return disparosRealizados;
+    }
+
+    @Override
+    public void setInterfazbarcos(GUIBarcos Interfazbarcos) {
+        this.interfazBarcos = Interfazbarcos;
+    }
+
+
+    @Override
+    public void setinterfazJuego(GUIJuego juego) throws RemoteException {
+        interfazJuego=juego;
+    }
+
+    @Override
+    public void repintar(Coordenada coordenada, boolean b) throws RemoteException {
+        interfazJuego.repintarInterfaz(coordenada,b);
     }
 
 }

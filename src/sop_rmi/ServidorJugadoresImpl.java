@@ -28,6 +28,7 @@ public class ServidorJugadoresImpl extends UnicastRemoteObject implements Servid
 
     public ServidorJugadoresImpl() throws RemoteException {
         jugadoresEnLinea = new ArrayList<>();
+        jugadoresJugando = new ArrayList<>();
         datosJugadores = new ArrayList<>();
         ObjArchivo = new Archivo();
     }
@@ -124,8 +125,8 @@ public class ServidorJugadoresImpl extends UnicastRemoteObject implements Servid
         System.out.println("Jug2" + nick2);
         for (int i = 0; i < jugadoresEnLinea.size(); i++) {
             if (jugadoresEnLinea.get(i).obtenerNombre().equals(nick1)) {
-                jugadoresEnLinea.get(i).modificarOponente(nick2);
                 jugadoresJugando.add(jugadoresEnLinea.get(i));
+                jugadoresEnLinea.get(i).modificarOponente(nick2);
                 desconectarJugador(jugadoresEnLinea.get(i), jugadoresEnLinea.get(i).obtenerNombre());
             }
         }
@@ -134,7 +135,7 @@ public class ServidorJugadoresImpl extends UnicastRemoteObject implements Servid
                 jugadoresEnLinea.get(i).modificarOponente(nick1);
                 jugadoresJugando.add(jugadoresEnLinea.get(i));
                 jugadoresEnLinea.get(i).mostrarPantalla();
-                desconectarJugador(jugadoresEnLinea.get(i), jugadoresEnLinea.get(i).obtenerNombre());                
+                desconectarJugador(jugadoresEnLinea.get(i), jugadoresEnLinea.get(i).obtenerNombre());
             }
         }
         //Nick2 se le muestra la interfaz 
@@ -148,10 +149,49 @@ public class ServidorJugadoresImpl extends UnicastRemoteObject implements Servid
     @Override
     public void posicionBarcos(String nick) throws RemoteException {
         for (int i = 0; i < jugadoresJugando.size(); i++) {
-            if(jugadoresJugando.get(i).obtenerNombre().equals(nick)){
+            if (jugadoresJugando.get(i).obtenerNombre().equals(nick)) {
                 jugadoresJugando.get(i).posicionarBarcos();
             }
         }
+    }
+
+    @Override
+    public int disparo(Coordenada coordenada, String nick) throws RemoteException {
+        //Ver Turno
+        JugadorInt oponente = null;
+        JugadorInt jugador = null;
+        try {
+            for (int i = 0; i < jugadoresJugando.size(); i++) {
+                //Quien tenga como oponente el que disparo
+                if (jugadoresJugando.get(i).obtenerOponente().equals(nick)) {
+                    oponente = jugadoresJugando.get(i);
+                }
+            }
+            for (int i = 0; i < jugadoresJugando.size(); i++) {
+                if (jugadoresJugando.get(i).obtenerNombre().equals(nick)) {
+                    jugador = jugadoresJugando.get(i);
+                }
+            }
+            //Error 1, coordenada repetida
+            if (jugador.obtenerDisparosRealizados().contains(coordenada)) {
+                return 1;
+            } else if (oponente.obtenerBarcos().contains(coordenada)) {
+                //Le dio al barco
+                ArrayList<Coordenada> lista=oponente.obtenerBarcos();
+                oponente.repintar(coordenada,true);
+                jugador.obtenerDisparosRealizados().add(coordenada);
+                return 0;                   
+            } else {
+                //no le dio 
+                oponente.repintar(coordenada,false);
+                jugador.obtenerDisparosRealizados().add(coordenada);
+                return -1;
+            }
+
+        } catch (RemoteException ex) {
+            Logger.getLogger(ServidorJugadoresImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 1;
     }
 
 }
