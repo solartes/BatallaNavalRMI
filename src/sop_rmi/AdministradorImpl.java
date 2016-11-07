@@ -64,31 +64,41 @@ public class AdministradorImpl extends UnicastRemoteObject implements Administra
         }
     }
 
-    /*
-       public boolean ingresarUsuario(String nickName, String claveIngreso) {
-        System.out.println("Iniciando sesion Usuarios");
+    public boolean ingresarUsuario(String nickName, String claveIngreso) {
+        System.out.println("Iniciando sesion Usuario");
+        boolean retorno = false;
+        Usuario objUser = null;
         String[] contenidoArchivo;
-        boolean retorno=false;
-        //String archivo = "C:\\Users\\Lenovo\\Documents\\NetBeansProjects\\batallaNavalRMI\\batallaNavalRMI\\src\\servidor\\infoArchivos\\admin.txt";
-        String archivo = Archivo.obtenerRuta()+"\\src\\servidor\\infoArchivos\\admin.txt";
-        try {            
-            ObjArchivo.abrirArchivo(archivo, false);
-            
-            contenidoArchivo = ObjArchivo.leerContenido(archivo);
-            for (int i = 0; i < contenidoArchivo.length; i++) {
-                String []contenido= contenidoArchivo[0].split(";");
-                    if (nickName.equals(contenido[0]) && claveIngreso.equals(contenido[1])) {
-                        retorno=true;
+        String ruta = obtenerRuta() + "\\src\\servidor\\infoArchivos\\archivosUsers";
+        File directorio = new File(ruta);
+        if (directorio.exists()) {
+            File[] ficheros = directorio.listFiles();
+
+            for (int x = 0; x < ficheros.length; x++) {
+                try {
+                    String nombreArch = ficheros[x].getName();
+                    String rutaArchivo = obtenerRuta() + "\\src\\servidor\\infoArchivos\\archivosUsers\\" + nombreArch;
+                    File archivo = new File(rutaArchivo);
+                    ObjArchivo.abrirArchivo(rutaArchivo, false);
+                    contenidoArchivo = ObjArchivo.leerContenido(rutaArchivo);
+
+                    for (int i = 0; i < contenidoArchivo.length; i++) {
+                        String[] contenido = contenidoArchivo[0].split(";");
+                        if (nickName.equals(contenido[2]) && claveIngreso.equals(contenido[2])) {
+                            retorno = true;
+                        }
                     }
+                } catch (IOException ex) {
+                    Logger.getLogger(Archivo.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
             }
-            
-         } catch (Exception e) {
-            System.err.println("Ocurrio un error al leer el archivo");
+        } else {
+            System.out.println(" El directorio no Existe");
         }
         return retorno;
     }
-    
-     */
+
     @Override
     public boolean ingresarAdministrador(String nickName, String claveIngreso) {
         System.out.println("Identificando administrador");

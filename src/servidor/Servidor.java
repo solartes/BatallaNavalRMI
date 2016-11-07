@@ -10,6 +10,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import sop_rmi.AdministradorImpl;
+import sop_rmi.ServidorJugadoresImpl;
 
 /**
  *
@@ -19,14 +20,19 @@ public class Servidor {
 
     public static void main(String[] args) {
         try {
-            args=new String[2];
-            args[0]="localhost";
-            args[1]="2020";
+            args = new String[2];
+            args[0] = "localhost";
+            args[1] = "2020";
             arrancarNS((Integer.parseInt(args[1])));
             AdministradorImpl obj = new AdministradorImpl();
             System.out.println("Objeto instanciado:" + obj);
             Naming.rebind("rmi://" + args[0] + ":" + args[1] + "/Administrador", obj);
-            System.out.println("servidor registrado");
+            System.out.println("servidor Administrador registrado");
+            // servidor de Jugadores 
+            ServidorJugadoresImpl objServidorJug = new ServidorJugadoresImpl();
+            System.out.println("Objeto instanciado del servidor de jugadores:" + objServidorJug);
+            Naming.rebind("rmi://" + args[0] + ":" + args[1] + "/ServidorJugadores", objServidorJug);
+            System.out.println("servidor Jugadores registrado");
         } catch (Exception e) {
             System.out.println(e);
         }

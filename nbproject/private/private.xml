@@ -5,23 +5,16 @@
             <url>src/cliente/GUIRegistrarUsuario.java</url>
             <bookmark id="1">
                 <name/>
-                <line>181</line>
+                <line>195</line>
                 <key/>
             </bookmark>
         </file>
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Lenovo/Desktop/ParcialDistribuido/BatallaNavalRMI/src/cliente/GUIAdministrador.java</file>
-            <file>file:/C:/Users/Lenovo/Desktop/ParcialDistribuido/BatallaNavalRMI/src/sop_rmi/Archivo.java</file>
-            <file>file:/C:/Users/Lenovo/Desktop/ParcialDistribuido/BatallaNavalRMI/src/sop_rmi/Usuario.java</file>
-            <file>file:/C:/Users/Lenovo/Desktop/ParcialDistribuido/BatallaNavalRMI/src/servidor/infoArchivos/archivosUsers/jugador_pao.txt</file>
-            <file>file:/C:/Users/Lenovo/Desktop/ParcialDistribuido/BatallaNavalRMI/src/servidor/infoArchivos/archivosUsers/jugador_juli.txt</file>
-            <file>file:/C:/Users/Lenovo/Desktop/ParcialDistribuido/BatallaNavalRMI/src/cliente/GUIPrincipal.java</file>
-            <file>file:/C:/Users/Lenovo/Desktop/ParcialDistribuido/BatallaNavalRMI/src/servidor/infoArchivos/admin.txt</file>
-            <file>file:/C:/Users/Lenovo/Desktop/ParcialDistribuido/BatallaNavalRMI/src/sop_rmi/AdministradorInt.java</file>
-            <file>file:/C:/Users/Lenovo/Desktop/ParcialDistribuido/BatallaNavalRMI/src/sop_rmi/AdministradorImpl.java</file>
-            <file>file:/C:/Users/Lenovo/Desktop/ParcialDistribuido/BatallaNavalRMI/src/cliente/GUIRegistrarUsuario.java</file>
+            <file>file:/C:/Users/acer_acer/Desktop/BatallaNavalRMI/src/cliente/GUIBarcos.java</file>
+            <file>file:/C:/Users/acer_acer/Desktop/BatallaNavalRMI/src/cliente/GUITableroBarcos.java</file>
+            <file>file:/C:/Users/acer_acer/Desktop/BatallaNavalRMI/src/cliente/GUIJuego.java</file>
         </group>
     </open-files>
 </project-private>
