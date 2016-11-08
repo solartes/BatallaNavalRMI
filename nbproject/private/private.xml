@@ -12,9 +12,18 @@
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/Users/acer_acer/Desktop/BatallaNavalRMI/src/sop_rmi/ServidorJugadoresImpl.java</file>
+            <file>file:/C:/Users/acer_acer/Desktop/BatallaNavalRMI/src/sop_rmi/JugadorInt.java</file>
+            <file>file:/C:/Users/acer_acer/Desktop/BatallaNavalRMI/src/cliente/GUIBarcos.java</file>
+            <file>file:/C:/Users/acer_acer/Desktop/BatallaNavalRMI/src/cliente/GUILoginAdministrador.java</file>
+            <file>file:/C:/Users/acer_acer/Desktop/BatallaNavalRMI/src/cliente/GUIModificarUsuario.java</file>
+            <file>file:/C:/Users/acer_acer/Desktop/BatallaNavalRMI/src/cliente/GUIPrincipal.java</file>
+            <file>file:/C:/Users/acer_acer/Desktop/BatallaNavalRMI/src/cliente/GUIPanelSesion.java</file>
             <file>file:/C:/Users/acer_acer/Desktop/BatallaNavalRMI/src/cliente/GUITableroDisparos.java</file>
+            <file>file:/C:/Users/acer_acer/Desktop/BatallaNavalRMI/src/cliente/JugadorImp.java</file>
             <file>file:/C:/Users/acer_acer/Desktop/BatallaNavalRMI/src/cliente/GUILoginJugador.java</file>
             <file>file:/C:/Users/acer_acer/Desktop/BatallaNavalRMI/src/cliente/GUIJuego.java</file>
+            <file>file:/C:/Users/acer_acer/Desktop/BatallaNavalRMI/src/servidor/infoArchivos/admin.txt</file>
         </group>
     </open-files>
 </project-private>

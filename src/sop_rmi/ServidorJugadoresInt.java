@@ -22,6 +22,7 @@ public interface ServidorJugadoresInt extends Remote {
     boolean verificarTablero(String nick) throws RemoteException;
     void posicionBarcos(String nick) throws RemoteException;
     int disparo(Coordenada coordenada,String nick) throws RemoteException;
+    boolean barcosOponente(String nick) throws RemoteException;
     
     
 }

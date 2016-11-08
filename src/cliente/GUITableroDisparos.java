@@ -1,6 +1,7 @@
 package cliente;
 
 import static cliente.GUILoginJugador.getNombre;
+import java.applet.AudioClip;
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
@@ -15,13 +16,19 @@ public class GUITableroDisparos extends JPanel {
     private JButton[][] matrizColores;
     private JLabel[][] matrizColores2;
     private int n;
-    ImageIcon barco = new ImageIcon(GUIPrincipal.class.getResource("hundido4.gif"));
-    ImageIcon explosion = new ImageIcon(GUIPrincipal.class.getResource("explosion2.gif"));
-    ImageIcon fondo = new ImageIcon(GUIPrincipal.class.getResource("fondo.jpg"));
+    ImageIcon barco = new ImageIcon("src/multimedia/hundido4.gif");
+    ImageIcon explosion = new ImageIcon("src/multimedia/explosion2.gif");
+    ImageIcon fondo = new ImageIcon("src/multimedia/fondo.jpg");
     ArrayList<Coordenada> puntos = new ArrayList();
+    AudioClip explosionSonido;
+    AudioClip aguaSonido;
+    GUIJuego padre;
 
     //creando los botones 
-    public GUITableroDisparos(int n, boolean color) {
+    public GUITableroDisparos(int n, boolean color, GUIJuego padre) {
+        this.padre=padre;
+        explosionSonido = java.applet.Applet.newAudioClip(getClass().getResource("/multimedia/disparo.wav"));
+        aguaSonido = java.applet.Applet.newAudioClip(getClass().getResource("/multimedia/sonidoAgua.wav"));
         if (color) {
             this.n = n;
             matrizColores = new JButton[n][n];
@@ -70,34 +77,72 @@ public class GUITableroDisparos extends JPanel {
                     public void actionPerformed(ActionEvent evt) {
                         JButton evento = (JButton) evt.getSource();
                         String pos[] = evento.getActionCommand().split(",");
-                        int resul = 5;
+                        int resul = -2;
                         try {
                             resul = SingletonJugador.jugadorRemoto().disparo(new Coordenada(Integer.parseInt(pos[0]), Integer.parseInt(pos[1])), getNombre());
                         } catch (RemoteException ex) {
                             Logger.getLogger(GUITableroDisparos.class.getName()).log(Level.SEVERE, null, ex);
                         }
-                        if (resul == 1) {
-                            JOptionPane.showMessageDialog(null, "Coordenada repetida", "Error", JOptionPane.ERROR_MESSAGE);
-                        } else if (resul == 0) {
-                            matrizColores[Integer.parseInt(pos[0])][Integer.parseInt(pos[1])].setIcon(barco);
-                        } else if (resul == -1) {
-                            matrizColores[Integer.parseInt(pos[0])][Integer.parseInt(pos[1])].setIcon(explosion);
-                        }
-                        //matrizColores[Integer.parseInt(pos[0])][Integer.parseInt(pos[1])].setIcon(barco);
-                        //puntos.add(new Coordenada(Integer.parseInt(pos[0]), Integer.parseInt(pos[1])));
-                        //System.out.println("valor de la posicion: " + evento.getActionCommand());
-
+                        switch (resul) {
+                            case 2:
+                                JOptionPane.showMessageDialog(null, "Coordenada repetida", "Error", JOptionPane.INFORMATION_MESSAGE);
+                                break;
+                            case 1:
+                                JOptionPane.showMessageDialog(null, "No es tu turno", "Error", JOptionPane.INFORMATION_MESSAGE);
+                                break;
+                            case 3:
+                                JOptionPane.showMessageDialog(null, "Ganaste", "Error", JOptionPane.INFORMATION_MESSAGE);
+                                break;
+                            case 4:
+                                JOptionPane.showMessageDialog(null, "Perdiste", "Error", JOptionPane.INFORMATION_MESSAGE);
+                                break;                            
+                            case 5:
+                                JOptionPane.showMessageDialog(null, "Empate", "Error", JOptionPane.INFORMATION_MESSAGE);
+                                break;                        
+                            case 0:
+                                padre.refrescar(true,false);
+                                explosionSonido.play();
+                                matrizColores[Integer.parseInt(pos[0])][Integer.parseInt(pos[1])].setIcon(barco);
+                                break;
+                            case -1:
+                                padre.refrescar(false,false);
+                                aguaSonido.play();
+                                matrizColores[Integer.parseInt(pos[0])][Integer.parseInt(pos[1])].setIcon(explosion);
+                                break;
+                            default:
+                                break;
+                        }                        
                     }
                 });
             }
         }
     }
 
-    void repint(Coordenada coordenada, boolean b) {
-        if(b){
+    void repint(Coordenada coordenada, boolean b, int a) {
+        if (b == true) {
+            padre.refrescar(true,true);
             matrizColores2[coordenada.getX()][coordenada.getY()].setIcon(barco);
-        }else{
+            if (a == 5) {
+                JOptionPane.showMessageDialog(null, "Empate", "Error", JOptionPane.INFORMATION_MESSAGE);
+            }
+            if (a == 3) {
+                JOptionPane.showMessageDialog(null, "Ganaste", "Error", JOptionPane.INFORMATION_MESSAGE);
+            }
+            if (a == 4) {
+                JOptionPane.showMessageDialog(null, "Perdiste", "Error", JOptionPane.INFORMATION_MESSAGE);
+            }
+        } else {
+            padre.refrescar(false,true);
             matrizColores2[coordenada.getX()][coordenada.getY()].setIcon(explosion);
+            if (a == 5) {
+                JOptionPane.showMessageDialog(null, "Empate", "Error", JOptionPane.INFORMATION_MESSAGE);
+            }
+            if (a == 3) {
+                JOptionPane.showMessageDialog(null, "Ganaste", "Error", JOptionPane.INFORMATION_MESSAGE);
+            }
+            if (a == 4) {
+                JOptionPane.showMessageDialog(null, "Perdiste", "Error", JOptionPane.INFORMATION_MESSAGE);
+            }
         }
     }
 

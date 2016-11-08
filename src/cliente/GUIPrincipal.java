@@ -40,6 +40,11 @@ public class GUIPrincipal extends javax.swing.JFrame {
         });
 
         jButton2.setText("Ingresar como jugador");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -72,7 +77,15 @@ public class GUIPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
         GUILoginAdministrador gui=new GUILoginAdministrador(this);
         gui.setVisible(rootPaneCheckingEnabled);
+        
     }//GEN-LAST:event_btnIngresoAdminActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        GUILoginJugador gui=new GUILoginJugador();
+        gui.setVisible(rootPaneCheckingEnabled);
+        
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments

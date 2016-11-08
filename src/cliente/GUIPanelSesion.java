@@ -163,8 +163,9 @@ public class GUIPanelSesion extends javax.swing.JFrame {
     }
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
         try {
-            // TODO add your handling code here:
+            // TODO add your handling code here:          
             SingletonJugador.jugadorRemoto().desconectarJugador(padre.getObjcllbck(), padre.getNombre());
+            this.setVisible(false);
         } catch (RemoteException ex) {
             Logger.getLogger(GUIPanelSesion.class.getName()).log(Level.SEVERE, null, ex);
         }

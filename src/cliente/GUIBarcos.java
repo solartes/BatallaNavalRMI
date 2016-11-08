@@ -11,6 +11,7 @@ import java.rmi.RemoteException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -21,8 +22,9 @@ public class GUIBarcos extends javax.swing.JFrame {
     /**
      * Creates new form GUIBarcos
      */
-    ImageIcon button_black, button_white, button_option;
+
     GUITableroBarcos barcos = new GUITableroBarcos(4);
+
     public GUIBarcos() {
         initComponents();
         pnlTablero.add(barcos);
@@ -31,7 +33,7 @@ public class GUIBarcos extends javax.swing.JFrame {
         } catch (RemoteException ex) {
             Logger.getLogger(GUIBarcos.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
 
     /**
@@ -47,6 +49,7 @@ public class GUIBarcos extends javax.swing.JFrame {
         pnlTablero = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -72,6 +75,13 @@ public class GUIBarcos extends javax.swing.JFrame {
 
         jLabel2.setText("Puede posicionar 6 barcos");
 
+        jButton1.setText("Salir");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -86,12 +96,15 @@ public class GUIBarcos extends javax.swing.JFrame {
                         .addComponent(jLabel2)))
                 .addContainerGap(23, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnEmpezar)
                         .addGap(26, 26, 26))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jLabel1)
                         .addGap(83, 83, 83))))
         );
@@ -105,7 +118,9 @@ public class GUIBarcos extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnEmpezar)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnEmpezar)
+                    .addComponent(jButton1))
                 .addGap(21, 21, 21))
         );
 
@@ -114,25 +129,31 @@ public class GUIBarcos extends javax.swing.JFrame {
 
     private void btnEmpezarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEmpezarActionPerformed
         // TODO add your handling code here:
-        if(barcos.getNumBarcos()==0){            
-            try {
-                GUIJuego juego=new GUIJuego();
+        try {
+            if (barcos.getNumBarcos() == 0 && SingletonJugador.jugadorRemoto().barcosOponente(getNombre())) {
+                GUIJuego juego = new GUIJuego();
                 SingletonJugador.jugadorRemoto().posicionBarcos(getNombre());
                 juego.setVisible(true);
                 this.setVisible(false);
-            } catch (RemoteException ex) {
-                Logger.getLogger(GUIBarcos.class.getName()).log(Level.SEVERE, null, ex);
+            } else if (barcos.getNumBarcos() != 0) {
+                JOptionPane.showMessageDialog(null, "Posicione 6 barcos por favor", "Error", JOptionPane.ERROR_MESSAGE);
+            } else if(!SingletonJugador.jugadorRemoto().barcosOponente(getNombre())) {
+                JOptionPane.showMessageDialog(null, "Espere a que el oponente posicione sus barcos", "Error", JOptionPane.ERROR_MESSAGE);
             }
-        }else{
-            //Error
+        } catch (RemoteException ex) {
+            Logger.getLogger(GUIBarcos.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnEmpezarActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     public GUITableroBarcos getBarcos() {
         return barcos;
     }
 
-    
     /**
      * @param args the command line arguments
      */
@@ -171,6 +192,7 @@ public class GUIBarcos extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEmpezar;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel pnlTablero;

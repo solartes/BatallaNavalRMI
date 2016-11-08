@@ -50,13 +50,13 @@ public class GUILoginJugador extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("jLabel1");
+        jLabel1.setText("NickName");
 
-        jLabel2.setText("jLabel2");
+        jLabel2.setText("Contraseña");
 
-        jLabel3.setText("jLabel3");
+        jLabel3.setText("Ip");
 
-        jLabel4.setText("jLabel4");
+        jLabel4.setText("Puerto");
 
         btnConectar.setText("Conectar");
         btnConectar.addActionListener(new java.awt.event.ActionListener() {
@@ -65,20 +65,13 @@ public class GUILoginJugador extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("jButton2");
+        jButton2.setText("Salir");
 
-        txtNick.setText("juli");
         txtNick.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtNickActionPerformed(evt);
             }
         });
-
-        txtContrasena.setText("1234");
-
-        txtIp.setText("localhost");
-
-        txtPuerto.setText("2020");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -92,16 +85,15 @@ public class GUILoginJugador extends javax.swing.JFrame {
                     .addComponent(jLabel2)
                     .addComponent(jLabel1))
                 .addGap(33, 33, 33)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnConectar)
-                        .addGap(74, 74, 74)
-                        .addComponent(jButton2))
-                    .addComponent(txtNick, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtPuerto, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtIp, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(118, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(txtIp, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtContrasena, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnConectar, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtNick, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtPuerto, javax.swing.GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE))
+                .addGap(47, 47, 47)
+                .addComponent(jButton2)
+                .addContainerGap(116, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -127,7 +119,7 @@ public class GUILoginJugador extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnConectar)
                     .addComponent(jButton2))
-                .addContainerGap(88, Short.MAX_VALUE))
+                .addContainerGap(60, Short.MAX_VALUE))
         );
 
         pack();

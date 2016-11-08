@@ -3,7 +3,10 @@ package cliente;
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import sop_rmi.Coordenada;
 
 public class GUITableroBarcos extends JPanel {
@@ -11,9 +14,9 @@ public class GUITableroBarcos extends JPanel {
     private JButton[][] matrizColores;
     int numBarcos = 6;
     private int n;
-    ImageIcon agua = new ImageIcon(GUIPrincipal.class.getResource("agua.gif"));
-    ImageIcon barco = new ImageIcon(GUIPrincipal.class.getResource("barco1.gif"));
-    ArrayList<Coordenada> puntos=new ArrayList();
+    ImageIcon agua = new ImageIcon("src/multimedia/agua.gif");
+    ImageIcon barco = new ImageIcon("src/multimedia/barco1.gif");
+    ArrayList<Coordenada> puntos = new ArrayList();
 
     //creando los botones 
     public GUITableroBarcos(int n) {
@@ -47,12 +50,21 @@ public class GUITableroBarcos extends JPanel {
                         if (numBarcos == 0) {
                             JOptionPane.showMessageDialog(null, "No puedes posicionar mas barcos", "Error", JOptionPane.ERROR_MESSAGE);
                         } else {
-                            numBarcos--;
                             JButton evento = (JButton) evt.getSource();
                             String pos[] = evento.getActionCommand().split(",");
-                            matrizColores[Integer.parseInt(pos[0])][Integer.parseInt(pos[1])].setIcon(barco);
-                            puntos.add(new Coordenada(Integer.parseInt(pos[0]), Integer.parseInt(pos[1])));
-                            System.out.println("valor de la posicion: " + evento.getActionCommand());
+                            if (!puntos.contains(new Coordenada(Integer.parseInt(pos[0]), Integer.parseInt(pos[1])))) {
+                                numBarcos--;
+                                matrizColores[Integer.parseInt(pos[0])][Integer.parseInt(pos[1])].setIcon(barco);
+                                puntos.add(new Coordenada(Integer.parseInt(pos[0]), Integer.parseInt(pos[1])));
+                                System.out.println("valor de la posicion: " + evento.getActionCommand());
+                                if (numBarcos == 0) {
+                                    try {
+                                        GUILoginJugador.getObjcllbck().barcosListos();//Notificacion barcos cargados
+                                    } catch (RemoteException ex) {
+                                        Logger.getLogger(GUITableroBarcos.class.getName()).log(Level.SEVERE, null, ex);
+                                    }
+                                }
+                            }
                         }
                     }
                 });
@@ -67,7 +79,5 @@ public class GUITableroBarcos extends JPanel {
     public ArrayList<Coordenada> getPuntos() {
         return puntos;
     }
-    
-    
 
 }

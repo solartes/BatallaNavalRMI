@@ -25,12 +25,16 @@ public class ServidorJugadoresImpl extends UnicastRemoteObject implements Servid
     List<JugadorInt> jugadoresJugando;
     List<String> datosJugadores;
     Archivo ObjArchivo;
+    boolean primerDisparo;
+    String primerJugador;
+    int a = 0;
 
     public ServidorJugadoresImpl() throws RemoteException {
         jugadoresEnLinea = new ArrayList<>();
         jugadoresJugando = new ArrayList<>();
         datosJugadores = new ArrayList<>();
         ObjArchivo = new Archivo();
+        primerDisparo = true;
     }
 
     @Override
@@ -159,6 +163,7 @@ public class ServidorJugadoresImpl extends UnicastRemoteObject implements Servid
     public int disparo(Coordenada coordenada, String nick) throws RemoteException {
         //Ver Turno
         JugadorInt oponente = null;
+        a++;
         JugadorInt jugador = null;
         try {
             for (int i = 0; i < jugadoresJugando.size(); i++) {
@@ -172,19 +177,69 @@ public class ServidorJugadoresImpl extends UnicastRemoteObject implements Servid
                     jugador = jugadoresJugando.get(i);
                 }
             }
-            //Error 1, coordenada repetida
             if (jugador.obtenerDisparosRealizados().contains(coordenada)) {
+                //Error 2, coordenada repetida
+                return 2;
+            } else if (!jugador.obtenerTurno()) {
                 return 1;
             } else if (oponente.obtenerBarcos().contains(coordenada)) {
-                //Le dio al barco
-                ArrayList<Coordenada> lista=oponente.obtenerBarcos();
-                oponente.repintar(coordenada,true);
-                jugador.obtenerDisparosRealizados().add(coordenada);
-                return 0;                   
-            } else {
-                //no le dio 
-                oponente.repintar(coordenada,false);
-                jugador.obtenerDisparosRealizados().add(coordenada);
+                //Le dio al barco, cambia turno
+                jugador.heDerribado();
+                jugador.dispRestantes();
+                oponente.meDerribaron();
+                jugador.cambiarTurno();
+                if (primerDisparo == false) {
+                    oponente.cambiarTurno();
+                } else {
+                    primerDisparo = false;
+                }
+                jugador.agregar(coordenada);
+                if (oponente.getMeDerribaron() == 6 && jugador.getMeDerribaron() == 6) {
+                    //empate, hacer callback, con repintar es posible
+                    return 5;
+                } else if (jugador.getDisparosRestantes() == 0 && oponente.getDisparosRestantes() == 0) {
+                    if (jugador.getMeDerribaron() > oponente.getMeDerribaron()) {
+                         oponente.repintar(coordenada, false,3);
+                        return 4;//Perdio
+                    } else if (jugador.getMeDerribaron() < oponente.getMeDerribaron()) {
+                        oponente.repintar(coordenada, false,4);
+                        return 3;//gano
+                    } else {
+                         oponente.repintar(coordenada, false,5);
+                        return 5;//empato
+                    }
+                } else {
+                    oponente.repintar(coordenada, true, 0);
+                }
+                return 0;
+            } else if (!oponente.obtenerBarcos().contains(coordenada)) {
+                //no le dio, cambia turno
+                jugador.dispFallidos();
+                jugador.dispRestantes();
+                jugador.cambiarTurno();
+                if (primerDisparo == false) {
+                    oponente.cambiarTurno();
+                } else {
+                    primerDisparo = false;
+                }
+                jugador.agregar(coordenada);
+                if (oponente.getMeDerribaron() == 6 && jugador.getMeDerribaron() == 6) {
+                    oponente.repintar(coordenada, true, 0);//empate, hacer callback, con repintar es posible
+                    return 5;
+                } else if (jugador.getDisparosRestantes() == 0 && oponente.getDisparosRestantes() == 0) {
+                    if (jugador.getMeDerribaron() > oponente.getMeDerribaron()) {
+                        oponente.repintar(coordenada, false, 3);
+                        return 4;//Perdio
+                    } else if (jugador.getMeDerribaron() < oponente.getMeDerribaron()) {
+                        oponente.repintar(coordenada, false, 4);
+                        return 3;//gano
+                    } else {
+                        oponente.repintar(coordenada, false, 5);
+                        return 5;//empato
+                    }
+                } else {
+                    oponente.repintar(coordenada, false, 0);
+                }
                 return -1;
             }
 
@@ -192,6 +247,19 @@ public class ServidorJugadoresImpl extends UnicastRemoteObject implements Servid
             Logger.getLogger(ServidorJugadoresImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         return 1;
+    }
+
+    @Override
+    public boolean barcosOponente(String nick) throws RemoteException {
+        boolean res = false;
+        for (int i = 0; i < jugadoresJugando.size(); i++) {
+            if (jugadoresJugando.get(i).obtenerOponente().equals(nick)) {
+                if (jugadoresJugando.get(i).obtenerPosBarc()) {
+                    return true;
+                }
+            }
+        }
+        return res;
     }
 
 }
